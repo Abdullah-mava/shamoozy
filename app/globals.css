@@ -32,49 +32,54 @@ body {
   overflow: hidden; /* Prevent scrolling */
 }
 
-.falling-cat {
-  position: absolute;
-  top: -50px;  /* Start position above the viewport */
-  width: 80px;  /* Set width to make them small */
-  height: 80px; /* Set height to make them small */
-  animation: fall 40s infinite linear, rotate 40s infinite linear, random-movement 40s infinite linear;  /* Increased duration to 40s */
+/* Add to your globals.css or within a style tag in the component */
+.card-container {
+  perspective: 1000px; /* Makes the 3D effect visible */
 }
 
-@keyframes fall {
-  0% {
-    top: -50px;
-    left: 0%;  /* Start on the left side of the screen */
-  }
-  100% {
-    top: 100vh;  /* End at the bottom of the screen */
-    left: 100%;  /* End on the right side of the screen */
-  }
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform */
+  transform-style: preserve-3d; /* Ensures that child elements are rendered in 3D */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Initial shadow */
 }
 
-@keyframes rotate {
-  100% {
-    transform: rotate(360deg);  /* Rotate 360 degrees */
-  }
+.card:hover {
+  transform: rotateY(10deg) rotateX(10deg); /* Apply 3D rotation on hover */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Larger shadow when hovered */
 }
 
-@keyframes random-movement {
-  0% {
-    left: calc(0% + 50px);  /* Start on the left side of the screen */
-    top: -50px;
-  }
-  25% {
-    left: calc(100% - 50px);  /* Move to the right */
-    top: 20vh;
-  }
-  50% {
-    left: calc(0% + 100px);  /* Move back to the left side */
-    top: 40vh;
-  }
-  75% {
-    left: calc(100% - 100px);  /* Move right again */
-    top: 60vh;
-  }
-  100% {
-    left: calc(0% + 150px);  /* Move to the left side */
-    top: 100vh;  /* End at the bottom */
-  }
+/* Optional: Add inner shadow or depth for a more realistic effect */
+.card-content {
+  padding: 2rem;
+  border-radius: 10px;
+  background-color: #fff;
+  transform: translateZ(50px); /* Brings the content to the front */
+}
+/* Ensure the 3D container perspective */
+.card-container {
+  perspective: 1000px; /* Makes the 3D effect visible */
+}
+
+/* Card Styling */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform */
+  transform-style: preserve-3d; /* Ensures that child elements are rendered in 3D */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Initial shadow */
+}
+
+.card:hover {
+  transform: rotateY(10deg) rotateX(10deg); /* Apply 3D rotation on hover */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Larger shadow when hovered */
+}
+
+/* Optional: Add inner shadow or depth for a more realistic effect */
+.card-content {
+  padding: 2rem;
+  border-radius: 10px;
+  background-color: #fff;
+  transform: translateZ(50px); /* Brings the content to the front */
+}
+.perspective-1000 {
+  perspective: 1000px;
+}
+
