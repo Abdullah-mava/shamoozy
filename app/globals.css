@@ -1,28 +1,85 @@
 @import "tailwindcss";
 
-/* styles/globals.css or app/globals.css */
 :root {
-  --color-primary: oklch(60% 0.25 280); 
-  --color-secondary: oklch(85% 0.02 270); 
-  --color-background: oklch(98% 0.005 270);
-  --color-surface: oklch(93% 0.01 270);
-  --color-border: oklch(80% 0.01 270 / 0.15);
-  --color-text: oklch(20% 0.01 270);
-  --color-muted: oklch(50% 0.01 270);
-  --radius-base: 0.75rem;
-  --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.04);
-  --shadow-md: 0 4px 6px oklch(0% 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px oklch(0% 0 0 / 0.15);
-  --font-sans: "Geist", "Geist Fallback", system-ui, sans-serif;
-  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
-  --transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
 }
 
 body {
-  background-color: var(--color-background);
-  color: var(--color-text);
-  font-family: var(--font-sans);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
 }
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden; /* Prevent scrolling */
+}
+
+/* Add to your globals.css or within a style tag in the component */
+.card-container {
+  perspective: 1000px; /* Makes the 3D effect visible */
+}
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform */
+  transform-style: preserve-3d; /* Ensures that child elements are rendered in 3D */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Initial shadow */
+}
+
+.card:hover {
+  transform: rotateY(10deg) rotateX(10deg); /* Apply 3D rotation on hover */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Larger shadow when hovered */
+}
+
+/* Optional: Add inner shadow or depth for a more realistic effect */
+.card-content {
+  padding: 2rem;
+  border-radius: 10px;
+  background-color: #fff;
+  transform: translateZ(50px); /* Brings the content to the front */
+}
+/* Ensure the 3D container perspective */
+.card-container {
+  perspective: 1000px; /* Makes the 3D effect visible */
+}
+
+/* Card Styling */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform */
+  transform-style: preserve-3d; /* Ensures that child elements are rendered in 3D */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Initial shadow */
+}
+
+.card:hover {
+  transform: rotateY(10deg) rotateX(10deg); /* Apply 3D rotation on hover */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Larger shadow when hovered */
+}
+
+/* Optional: Add inner shadow or depth for a more realistic effect */
+.card-content {
+  padding: 2rem;
+  border-radius: 10px;
+  background-color: #fff;
+  transform: translateZ(50px); /* Brings the content to the front */
+}
+.perspective-1000 {
+  perspective: 1000px;
+}
+
