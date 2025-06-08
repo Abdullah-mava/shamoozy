@@ -1,21 +1,59 @@
-"use client"; 
+"use client";
 import { useRef, useState, useEffect } from "react";
+import './globals.css';  // Ensure correct path for global CSS
 
 export default function Home() {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true); // Start muted
   const [volume, setVolume] = useState(1);
+  const [hasInteracted, setHasInteracted] = useState(false); // Track user interaction
 
-  // Ensure audio is playing when the component mounts
   useEffect(() => {
-    if (audioRef.current) {
+    if (audioRef.current && hasInteracted) {
+      // Play the audio only if the user has interacted with the page
       audioRef.current.volume = volume;
       audioRef.current.muted = isMuted;
       audioRef.current.play().catch((error) => {
         console.error("Audio play error:", error);
       });
     }
-  }, [isMuted, volume]);
+
+    // Create falling cats from both sides
+    const numCats = 10; // Number of falling cats
+    const cats: HTMLElement[] = [];
+    console.log("Creating falling cats...");
+
+    for (let i = 0; i < numCats; i++) {
+      const fallingCat = document.createElement('img');
+      fallingCat.classList.add('falling-cat');
+      fallingCat.src = '/cat.png'; // Correct path for the image
+      fallingCat.alt = 'Falling Cat';
+
+      console.log("Created cat:", fallingCat);
+
+      document.body.appendChild(fallingCat);
+      cats.push(fallingCat);
+
+      // Randomly choose if the cat falls from the left or right side
+      const isLeftSide = Math.random() < 0.5;
+      const startPosition = isLeftSide ? -50 : window.innerWidth + 50; // Position it outside the screen (left or right)
+      fallingCat.style.left = `${startPosition}px`;
+
+      // Set random animation delay and duration for each cat
+      fallingCat.style.animationDelay = `${Math.random() * 5}s`;
+      fallingCat.style.animationDuration = `${Math.random() * 5 + 5}s`; // Random duration between 5s and 10s
+    }
+
+    // Cleanup falling cats when the component unmounts
+    return () => {
+      cats.forEach(cat => cat.remove());
+    };
+  }, [hasInteracted]);
+
+  const handleInteraction = () => {
+    console.log("Page clicked! Interaction set to true.");
+    setHasInteracted(true); // Mark the page as interacted with
+  };
 
   const toggleMute = () => {
     if (audioRef.current) {
@@ -40,7 +78,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden text-white">
+    <div className="min-h-screen flex flex-col relative overflow-hidden text-white" onClick={handleInteraction}>
       {/* Background GIF */}
       <img
         src="/5.gif"
@@ -51,11 +89,10 @@ export default function Home() {
       {/* Background Music */}
       <audio
         ref={audioRef}
-        autoPlay
         loop
         muted={isMuted}
         src="/song.mp3"
-        className="hidden"  // You can remove 'hidden' for debugging
+        className="hidden"
       />
 
       {/* Dark overlay */}
@@ -90,13 +127,13 @@ export default function Home() {
             step="0.01"
             value={volume}
             onChange={handleVolumeChange}
-            className="h-1 w-32 bg-gray-300 rounded-full appearance-none 
-              [&::-webkit-slider-thumb]:appearance-none 
-              [&::-webkit-slider-thumb]:h-3 
-              [&::-webkit-slider-thumb]:w-3 
-              [&::-webkit-slider-thumb]:rounded-full 
-              [&::-webkit-slider-thumb]:bg-white 
-              [&::-webkit-slider-thumb]:shadow-md"
+            className="h-1 w-32 bg-gray-300 rounded-full appearance-none
+                [&::-webkit-slider-thumb]:appearance-none
+                [&::-webkit-slider-thumb]:h-3
+                [&::-webkit-slider-thumb]:w-3
+                [&::-webkit-slider-thumb]:rounded-full
+                [&::-webkit-slider-thumb]:bg-white
+                [&::-webkit-slider-thumb]:shadow-md"
           />
         </div>
 
@@ -117,11 +154,7 @@ export default function Home() {
         </div>
 
         {/* Discord Badge */}
-        <a
-          href="https://discord.gg/Q9Zh2KYCxs"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://discord.gg/Q9Zh2KYCxs" target="_blank" rel="noopener noreferrer">
           <img
             className="h-10"
             src="https://www.parti.ai/content/images/2023/03/image.png"
